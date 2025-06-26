@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Message to Discord</title>
+</head>
+<body>
+  <h2>Send Message to Discord</h2>
+  <form id="form">
+    <textarea id="message" rows="5" cols="40" required></textarea><br>
+    <button type="submit">Send</button>
+  </form>
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById("form");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const message = document.getElementById("message").value;
+
+      // 👇 Replace this URL with your actual backend Replit link
+      const backendURL = "https://082760b4-4075-41b3-a952-5b688dd5f49e-00-2w6pwg0gca1z0.pike.replit.dev/send";
+
+      try {
+        const res = await fetch(backendURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        status.textContent = data.detail;
+      } catch (err) {
+        status.textContent = "❌ Failed to send message.";
+        console.error("Error:", err);
+      }
+    });
+  </script>
+</body>
+</html>
